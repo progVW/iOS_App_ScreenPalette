@@ -29,6 +29,9 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var labelValueBlue: UILabel!
     
+    let maxColorValue: Float = 255.0
+    let minColorValue: Float = 0.0
+    
     func mediana(_ sender: inout UISlider) {
         sender.value = (sender.maximumValue - sender.minimumValue) / 2 + sender.minimumValue
     }
@@ -41,56 +44,61 @@ class ViewController: UIViewController {
     
     func changePictureBackgroundColor(R: CGFloat, G: CGFloat, B: CGFloat) {
         picture.backgroundColor = UIColor(
-            red: R,
-            green: G,
-            blue: B,
+            red: R / CGFloat(maxColorValue),
+            green: G / CGFloat(maxColorValue),
+            blue: B / CGFloat(maxColorValue),
             alpha: 1)
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupBoundaryValue(for: sliderRedOUT)
+        setupBoundaryValue(for: sliderBlueOUT)
+        setupBoundaryValue(for: sliderGreenOUT)
         mediana(&sliderRedOUT)
         mediana(&sliderBlueOUT)
         mediana(&sliderGreenOUT)
         printLabelValue()
     }
-
+    
+    func setupBoundaryValue(for slider: UISlider) {
+        slider.minimumValue = minColorValue
+        slider.maximumValue = maxColorValue
+    }
+    
     @IBAction func sliderRed(_ sender: UISlider) {
         labelValueRed.text = "\(Int(sender.value))"
-        picture.backgroundColor = UIColor(
-            red: (CGFloat(sender.value) / 255.0),
-            green: (CGFloat(sliderGreenOUT.value) / 255.0),
-            blue: (CGFloat(sliderBlueOUT.value) / 255.0),
-            alpha: 1)
+        changePictureBackgroundColor(
+            R: CGFloat(sliderRedOUT.value),
+            G: CGFloat(sliderGreenOUT.value),
+            B: CGFloat(sliderBlueOUT.value))
     }
     
     @IBAction func sliderGreen(_ sender: UISlider) {
         labelValueGreen.text = "\(Int(sender.value))"
-        picture.backgroundColor = UIColor(
-            red: (CGFloat(sliderRedOUT.value) / 255.0),
-            green: (CGFloat(sender.value) / 255.0),
-            blue: (CGFloat(sliderBlueOUT.value) / 255.0),
-            alpha: 1)
+        changePictureBackgroundColor(
+            R: CGFloat(sliderRedOUT.value),
+            G: CGFloat(sliderGreenOUT.value),
+            B: CGFloat(sliderBlueOUT.value))
     }
     
     @IBAction func sliderBlue(_ sender: UISlider) {
         labelValueBlue.text = "\(Int(sender.value))"
-        picture.backgroundColor = UIColor(
-            red: (CGFloat(sliderRedOUT.value) / 255.0),
-            green: (CGFloat(sliderBlueOUT.value) / 255.0),
-            blue: (CGFloat(sender.value) / 255.0),
-            alpha: 1)
+        changePictureBackgroundColor(
+            R: CGFloat(sliderRedOUT.value),
+            G: CGFloat(sliderGreenOUT.value),
+            B: CGFloat(sliderBlueOUT.value))
     }
     
     @IBAction func minAction(_ sender: Any) {
-        sliderRedOUT.value = 0
-        sliderGreenOUT.value = 0
-        sliderBlueOUT.value = 0
+        sliderRedOUT.value = minColorValue
+        sliderGreenOUT.value = minColorValue
+        sliderBlueOUT.value = minColorValue
         printLabelValue()
         changePictureBackgroundColor(
-            R: CGFloat(sliderRedOUT.value / 255.0),
-            G: CGFloat(sliderGreenOUT.value / 255.0),
-            B: CGFloat(sliderBlueOUT.value / 255.0))
+            R: CGFloat(sliderRedOUT.value),
+            G: CGFloat(sliderGreenOUT.value),
+            B: CGFloat(sliderBlueOUT.value))
     }
     
     @IBAction func mediumAction(_ sender: Any) {
@@ -99,20 +107,20 @@ class ViewController: UIViewController {
         mediana(&sliderGreenOUT)
         printLabelValue()
         changePictureBackgroundColor(
-            R: CGFloat(sliderRedOUT.value / 255.0),
-            G: CGFloat(sliderGreenOUT.value / 255.0),
-            B: CGFloat(sliderBlueOUT.value / 255.0))
+            R: CGFloat(sliderRedOUT.value),
+            G: CGFloat(sliderGreenOUT.value),
+            B: CGFloat(sliderBlueOUT.value))
     }
     
     @IBAction func maxAction(_ sender: Any) {
-        sliderRedOUT.value = 255
-        sliderGreenOUT.value = 255
-        sliderBlueOUT.value = 255
+        sliderRedOUT.value = maxColorValue
+        sliderGreenOUT.value = maxColorValue
+        sliderBlueOUT.value = maxColorValue
         printLabelValue()
         changePictureBackgroundColor(
-            R: CGFloat(sliderRedOUT.value / 255.0),
-            G: CGFloat(sliderGreenOUT.value / 255.0),
-            B: CGFloat(sliderBlueOUT.value / 255.0))
+            R: CGFloat(sliderRedOUT.value),
+            G: CGFloat(sliderGreenOUT.value),
+            B: CGFloat(sliderBlueOUT.value))
     }
 }
 
