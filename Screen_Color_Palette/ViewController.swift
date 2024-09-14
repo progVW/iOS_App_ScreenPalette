@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Foundation
 
 class ViewController: UIViewController {
 
@@ -21,6 +22,8 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var sliderBlueOUT: UISlider!
     
+    @IBOutlet weak var sliderAlphaOUT: UISlider!
+    
     @IBOutlet weak var picture: UIView!
     
     @IBOutlet weak var labelValueRed: UILabel!
@@ -28,6 +31,8 @@ class ViewController: UIViewController {
     @IBOutlet weak var labelValueGreen: UILabel!
     
     @IBOutlet weak var labelValueBlue: UILabel!
+    
+    @IBOutlet weak var labelValueAlpha: UILabel!
     
     let maxColorValue: Float = 255.0
     let minColorValue: Float = 0.0
@@ -40,6 +45,7 @@ class ViewController: UIViewController {
         labelValueRed.text = "\(Int(sliderRedOUT.value))"
         labelValueGreen.text = "\(Int(sliderGreenOUT.value))"
         labelValueBlue.text = "\(Int(sliderBlueOUT.value))"
+        labelValueAlpha.text = "\(round(sliderAlphaOUT.value * 10) / 10)"
     }
     
     func changePictureBackgroundColor(R: CGFloat, G: CGFloat, B: CGFloat) {
@@ -47,7 +53,7 @@ class ViewController: UIViewController {
             red: R / CGFloat(maxColorValue),
             green: G / CGFloat(maxColorValue),
             blue: B / CGFloat(maxColorValue),
-            alpha: 1)
+            alpha: CGFloat(sliderAlphaOUT.value))
     }
 
     override func viewDidLoad() {
@@ -55,9 +61,12 @@ class ViewController: UIViewController {
         setupBoundaryValue(for: sliderRedOUT)
         setupBoundaryValue(for: sliderBlueOUT)
         setupBoundaryValue(for: sliderGreenOUT)
+        sliderAlphaOUT.minimumValue = 0
+        sliderAlphaOUT.maximumValue = 1
         mediana(&sliderRedOUT)
         mediana(&sliderBlueOUT)
         mediana(&sliderGreenOUT)
+        mediana(&sliderAlphaOUT)
         printLabelValue()
     }
     
@@ -121,6 +130,11 @@ class ViewController: UIViewController {
             R: CGFloat(sliderRedOUT.value),
             G: CGFloat(sliderGreenOUT.value),
             B: CGFloat(sliderBlueOUT.value))
+    }
+    
+    @IBAction func sliderAlpha(_ sender: UISlider) {
+        sender.value = sliderAlphaOUT.value
+        printLabelValue()
     }
 }
 
